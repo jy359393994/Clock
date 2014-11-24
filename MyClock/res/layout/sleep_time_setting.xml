@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="150dp"
+    android:orientation="vertical" >
+    
+    <RadioGroup 
+        android:id="@+id/sleep_time_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RadioButton 
+            android:id="@+id/five_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5分钟"
+            />
+        <RadioButton 
+            android:id="@+id/ten_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10分钟"
+            />
+        <RadioButton 
+            android:id="@+id/twenty_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20分钟"
+            />
+        <RadioButton 
+            android:id="@+id/thirty_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30分钟"
+            />
+    </RadioGroup>
+
+</LinearLayout>
