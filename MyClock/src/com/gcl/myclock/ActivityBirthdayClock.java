@@ -125,7 +125,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 		case R.id.layout_bir_clock_yes_btn:
 			BirthClock clock = new BirthClock(ClockUtils.getCreateTime(), "true", mRingTimeTxt.getText().toString(), 
 					getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), mToggleBtnStatus,mMusicPath);
-			AlarmTools tools = new AlarmTools(this);
+			
 			if(mClock != null){
 				clock.mCreateTime = mClock.mCreateTime;
 				((ClockApp)getApplication()).getData().updateBirthClock(mClock, clock);
@@ -135,7 +135,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 				((ClockApp)getApplication()).getData().addNewBirthClock(clock);
 				
 			}
-//			AlarmTools tools = new AlarmTools(this);
+			AlarmTools tools = new AlarmTools(this);
 			tools.cancel(clock.mCreateTime);
 			Calendar c = ClockUtils.getCalendarForHourAndMinus(clock.mTime);
 			int[] days = getDataPickDatas(clock.mDay);

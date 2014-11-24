@@ -2,6 +2,7 @@ package com.gcl.myclock.tools;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class ClockUtils {
 	
@@ -38,6 +39,39 @@ public class ClockUtils {
 		return values;
 	}
 	
+	public static int[] getHourAndMin(String time) {
+		int[] values = { 0, 0 };
+		String[] times = time.split(":");
+		values[0] = Integer.parseInt(times[0]);
+		values[1] = Integer.parseInt(times[1]);
+		return values;
+	}
+	
+	//得到下一个闹钟日期与今天的的差值
+	public static int getNextRepeatDay(int[] repeats){
+		int next = 0;
+		Calendar c = Calendar.getInstance(Locale.CHINA);
+		int dayOfWeek = c.DAY_OF_WEEK;
+		boolean isAllRedeayFindNext = false;
+		for(int i = dayOfWeek + 1;i < 7;i++){
+			if(repeats[i] == 1){
+				isAllRedeayFindNext = true;
+				next = i - dayOfWeek;
+				break;
+			}
+		}
+		if(!isAllRedeayFindNext){
+			for(int i = 0; i<= dayOfWeek;i++){
+				if(repeats[i] == 1){
+					isAllRedeayFindNext = true;
+					next = i - dayOfWeek + 7;
+					break;
+				}
+			}
+		}
+		return next;
+	}
+	
 
     public static Calendar getCalendarForHourAndMinus(String time)
     {
@@ -61,4 +95,18 @@ public class ClockUtils {
 				
 		return calendar;
     }
+    
+    public static int getHourAndMinAndSec(String time) {
+    	int sec;
+		int[] values = { 0, 0, 0};
+		String[] times = time.split(":");
+		values[0] = Integer.parseInt(times[0]);
+		values[1] = Integer.parseInt(times[1]);
+		values[2] = Integer.parseInt(times[2]);
+		sec = values[0] * 3600 + values[1] * 60 + values[2];
+		
+		return sec;
+	}
+    
+    
 }

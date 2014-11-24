@@ -4,6 +4,7 @@ package com.gcl.myclock;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.gcl.myclock.alarm.AlarmTools;
 import com.gcl.myclock.tools.BirthClock;
 import com.gcl.myclock.tools.ClockUtils;
 import com.gcl.myclock.tools.DialogEditName;
@@ -199,15 +200,20 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.invert_btn_yes:
 			InvertClock c = new InvertClock(ClockUtils.getCreateTime(), "true", createTimeStr(), mTextClockName.getText().toString(), mTextMusicName.getText().toString(),mMusicPath);
-//			GetUpClock c = new GetUpClock("1000", "00", "7:00", "test", "00", "test.mp3", "true", "10");
-//			BirthClock c = new BirthClock("1", "2", "9:35", "09/14", "test", "test.mp3", "true");
+
 			if(mClock != null){
 				c.mCreateTime = mClock.mCreateTime;
 				((ClockApp)getApplication()).getData().updateInvertClock(mClock, c);
 			}
 			else{
 			((ClockApp)getApplication()).getData().addNewInvertClock(c);
-			}
+			}			
+			AlarmTools tools = new AlarmTools(this);
+			tools.cancel(c.mCreateTime);
+			Calendar calendar = Calendar.getInstance(Locale.CHINA);
+			int sec = ClockUtils.getHourAndMinAndSec(c.mTime);
+			calendar.add(Calendar.SECOND, sec);
+			tools.setAlarm(c.mCreateTime, false, 0, calendar.getTimeInMillis());
 			finish();
 			break;
 		case R.id.invert_btn_no:

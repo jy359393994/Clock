@@ -1,5 +1,9 @@
 package com.gcl.myclock;
 
+import java.util.Calendar;
+import java.util.Locale;
+
+import com.gcl.myclock.alarm.AlarmTools;
 import com.gcl.myclock.getup.ActivitySleepTimeSetting;
 import com.gcl.myclock.getup.ActivityWeekday;
 import com.gcl.myclock.tools.ClockUtils;
@@ -79,7 +83,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		mSleepTimeLayout = (LinearLayout) findViewById(R.id.getup_item_time_layout);
 		mSleepTimeLayout.setOnClickListener(this);
 		mPicker = (TimePicker) findViewById(R.id.time_picker);
-		mMusicLayout = (LinearLayout)findViewById(R.id.getup_item_sound_layout);
+		mMusicLayout = (LinearLayout) findViewById(R.id.getup_item_sound_layout);
 		mMusicLayout.setOnClickListener(this);
 		initDataFromMain();
 	}
@@ -106,11 +110,6 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		mPicker.setCurrentHour(results[0]);
 		mPicker.setCurrentMinute(results[1]);
 	}
-
-	// private String getRepeatText(){
-	// str = createRepeatStr(ClockUtils.getRepeatInts(mClock.mRepeat));
-	// return str;
-	// }
 
 	@Override
 	public void onClick(View v) {
@@ -146,7 +145,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 					"true", createClockingTime(), mLabelEdit.getText()
 							.toString(), mStrRepeat, mMusicNameText.getText()
 							.toString(), mToggleBtnStatus, mSleepTimeTxt
-							.getText().toString().replace("分钟", ""),mMusicPath);
+							.getText().toString().replace("分钟", ""), mMusicPath);
 			if (mClock != null) {
 				clock.mCreateTime = mClock.mCreateTime;
 				((ClockApp) getApplication()).getData().updateGetUpClock(
@@ -154,6 +153,25 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			} else {
 				((ClockApp) getApplication()).getData().addNewGetUpClock(clock);
 			}
+
+			AlarmTools tools = new AlarmTools(this);
+			tools.cancel(clock.mCreateTime);
+			Calendar calendar = Calendar.getInstance(Locale.CHINA);
+			int curH = calendar.HOUR_OF_DAY;
+			int curM = calendar.MINUTE;
+			int times[] = getHourAndMin(clock.mTime);
+			int days[] = { 0, 0, 0 };
+			if (curH > times[0] || curH == times[0] && curM > times[1]) {
+				Log.i(LOG, "--------------------------明天的闹钟--------------");
+				calendar.add(Calendar.DATE, 1);
+			}
+			days[0] = calendar.YEAR;
+			days[1] = calendar.MONTH;
+			days[2] = calendar.DAY_OF_MONTH;
+			Log.i(LOG, calendar.toString());
+			calendar.set(Calendar.HOUR_OF_DAY, times[0]);
+			calendar.set(Calendar.MINUTE, times[1]);
+			tools.setAlarm(clock.mCreateTime, false, 0, calendar.getTimeInMillis());
 			finish();
 			break;
 		case R.id.getup_item_time_layout:
@@ -163,12 +181,20 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			startActivityForResult(it, 100);
 			break;
 		case R.id.getup_item_sound_layout:
-			it = new Intent(ActivityGetUpClock.this,ActivitySelectMusic.class);
+			it = new Intent(ActivityGetUpClock.this, ActivitySelectMusic.class);
 			startActivityForResult(it, 104);
 			break;
 
 		}
 
+	}
+
+	private int[] getHourAndMin(String time) {
+		int[] values = { 0, 0 };
+		String[] times = time.split(":");
+		values[0] = Integer.parseInt(times[0]);
+		values[1] = Integer.parseInt(times[1]);
+		return values;
 	}
 
 	private String createClockingTime() {
@@ -204,9 +230,10 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		if (200 == resultCode) {
 			mSleepTimeTxt.setText(data.getIntExtra("value", 10) + "分钟");
 		}
-		if(resultCode == 300){
-			mMusicNameText.setText(data.getCharSequenceExtra("name").toString());
-			mMusicPath =  data.getCharSequenceExtra("path").toString();
+		if (resultCode == 300) {
+			mMusicNameText
+					.setText(data.getCharSequenceExtra("name").toString());
+			mMusicPath = data.getCharSequenceExtra("path").toString();
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);

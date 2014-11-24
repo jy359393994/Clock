@@ -9,9 +9,10 @@ import java.util.List;
 import com.gcl.myclock.tools.Clock.CType;
 
 import android.content.Context;
+import android.util.Log;
 
 public class DataCenter {
-	
+	private static final String LOG = "DataCenter";
 	private Context mContext;
 	private OpenDBHelper mOpenDBHelper;
 	private List<Clock> mClocks = new ArrayList<Clock>();
@@ -186,10 +187,15 @@ public class DataCenter {
 	}
 	
 	public Clock getClockFromCt(String ct){
+		Log.i(LOG, "------------------getClockFromCt--- ct: " + ct);
+		if(mClocks != null){
+			Log.i(LOG, "------------------mClocks.size--- :" + mClocks.size());
+		}
 		Clock c = null;
 		for(Clock cl:mClocks){
 			if(cl.mCreateTime.equals(ct)){
 				c = cl;
+				Log.i(LOG, "------------------have find c---");
 				break;
 			}
 		}
