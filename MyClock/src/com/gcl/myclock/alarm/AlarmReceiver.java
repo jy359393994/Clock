@@ -10,7 +10,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 	private static final String LOG = "AlarmReceiver";
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
+
 		Intent it = new Intent(context,ActivityAlarm.class);
 		it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		it.putExtra("createtime", intent.getStringExtra("createtime"));

@@ -8,22 +8,15 @@ import com.gcl.myclock.getup.ActivitySleepTimeSetting;
 import com.gcl.myclock.getup.ActivityWeekday;
 import com.gcl.myclock.tools.ClockUtils;
 import com.gcl.myclock.tools.GetUpClock;
-import com.gcl.myclock.tools.VibratorUtil;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.sax.StartElementListener;
-import android.text.GetChars;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,7 +27,6 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 	private static final String LOG = "ActivityGetUpClock";
 	private LinearLayout mRepeatLayout;
 	private ToggleButton mToggleBtn;
-	private MyHandler mHandler;
 	private LinearLayout mBackLayout;
 	private LinearLayout mYesImgLayout;
 	private String mStrTextRepeat = "永不";
@@ -51,7 +43,6 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 	private static GetUpClock mClock;
 	private LinearLayout mMusicLayout;
 
-	private static final int CACLE_VIBRATE = 0;
 
 	public static void enterGetUpClock(GetUpClock clock, Context context) {
 		if (clock == null) {
@@ -64,14 +55,12 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.getup_clock);
 		mRepeatLayout = (LinearLayout) findViewById(R.id.getup_item_repeat_layout);
 		mRepeatLayout.setOnClickListener(this);
 		mToggleBtn = (ToggleButton) findViewById(R.id.getup_clock_ToggleButton);
 		mToggleBtn.setOnClickListener(this);
-		mHandler = new MyHandler();
 		mBackLayout = (LinearLayout) findViewById(R.id.layout_getup_clock_back);
 		mYesImgLayout = (LinearLayout) findViewById(R.id.layout_getup_clock_yes_btn);
 		mBackLayout.setOnClickListener(this);
@@ -106,14 +95,12 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		String values[] = mClock.mTime.split(":");
 		results[0] = Integer.parseInt(values[0]);
 		results[1] = Integer.parseInt(values[1]);
-		// return results;
 		mPicker.setCurrentHour(results[0]);
 		mPicker.setCurrentMinute(results[1]);
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		Log.i(LOG, "--------------onClick-------------");
 		Intent it = null;
 		switch (v.getId()) {
@@ -125,19 +112,19 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			}
 			startActivityForResult(it, 102);
 			break;
+			
 		case R.id.getup_clock_ToggleButton:
 			if (mToggleBtn.isChecked()) {
 				mToggleBtnStatus = "true";
-				long[] values = { 0, 200, 500 };
-				VibratorUtil.VibratorUtil(this, values, true);
-				mHandler.sendEmptyMessageDelayed(CACLE_VIBRATE, 60000);
 			} else {
 				mToggleBtnStatus = "false";
 			}
 			break;
+			
 		case R.id.layout_getup_clock_back:
 			finish();
 			break;
+			
 		case R.id.layout_getup_clock_yes_btn:
 
 			mStrRepeat = ClockUtils.getRepeat(mRepeats);
@@ -157,33 +144,33 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			AlarmTools tools = new AlarmTools(this);
 			tools.cancel(clock.mCreateTime);
 			Calendar calendar = Calendar.getInstance(Locale.CHINA);
-			int curH = calendar.HOUR_OF_DAY;
-			int curM = calendar.MINUTE;
+			int curH = calendar.get(Calendar.HOUR_OF_DAY);
+			int curM = calendar.get(Calendar.MINUTE);
 			int times[] = getHourAndMin(clock.mTime);
-			int days[] = { 0, 0, 0 };
+			Log.i(LOG, "-----------------------clock.time: " + clock.mTime + " times[0]: " + times[0] + 
+					" times[1]: " + + times[0] + " curH : " + curH + " curM: " + curM);
 			if (curH > times[0] || curH == times[0] && curM > times[1]) {
 				Log.i(LOG, "--------------------------明天的闹钟--------------");
 				calendar.add(Calendar.DATE, 1);
 			}
-			days[0] = calendar.YEAR;
-			days[1] = calendar.MONTH;
-			days[2] = calendar.DAY_OF_MONTH;
-			Log.i(LOG, calendar.toString());
 			calendar.set(Calendar.HOUR_OF_DAY, times[0]);
 			calendar.set(Calendar.MINUTE, times[1]);
 			tools.setAlarm(clock.mCreateTime, false, 0, calendar.getTimeInMillis());
 			finish();
 			break;
+			
 		case R.id.getup_item_time_layout:
 			it = new Intent(ActivityGetUpClock.this,
 					ActivitySleepTimeSetting.class);
 			it.putExtra("value", 10);
 			startActivityForResult(it, 100);
 			break;
+			
 		case R.id.getup_item_sound_layout:
 			it = new Intent(ActivityGetUpClock.this, ActivitySelectMusic.class);
 			startActivityForResult(it, 104);
 			break;
+			
 
 		}
 
@@ -216,7 +203,6 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		Log.i(LOG, "--------------onActivityResult-------------resultCode: "
 				+ resultCode);
 		if (202 == resultCode) {
@@ -271,21 +257,5 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		}
 	}
 
-	@SuppressLint("HandlerLeak")
-	class MyHandler extends Handler {
-
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			switch (msg.what) {
-
-			case CACLE_VIBRATE:
-				VibratorUtil.cacel();
-				break;
-			}
-		}
-
-	}
 
 }

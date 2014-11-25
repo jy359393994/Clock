@@ -37,7 +37,6 @@ public class ActivitySleepTimeSetting extends Activity{
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
 				Intent data = new Intent();
 				if(checkedId == R.id.five_button){
 					data.putExtra("value", 5);

@@ -54,12 +54,12 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 
 	public OpenDBHelper(Context context) {
 		super(context, NAME, null, DATABASE_VERSION);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
+
 		Log.i(LOG, "-------------onCreate---------------");
 		createGetUpTable(db);
 		createBirthTable(db);
@@ -69,7 +69,7 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
+
 		
 	}
 	
@@ -115,12 +115,6 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 		String[] selectArgs = {oldclock.mCreateTime};
 		Cursor cursor = readDB.query(DATABASE_TABLE_GETUP, null, (DATABASE_TABLE_GETUP_CREATE_TIME + "=?"), selectArgs, null, null, null);
 		if(cursor != null){
-//			String s = "update " + DATABASE_TABLE_GETUP + " set  status='" + newclock.mStatus +"' and time='" + newclock.mTime + "' and label='" 
-//					+ newclock.mLabel + "' and repeat='" + newclock.mRepeat + "' and music='" + newclock.mMusic + "' and vibrate='" 
-//					+ newclock.mVibrate + "' and sleeptime='" + newclock.mSleepTime + 
-//					"' where addingtime ='" + oldclock.mCreateTime + "' and status='" + oldclock.mStatus +"' and time='" + oldclock.mTime + "' and label='" + oldclock.mLabel + "' and repeat='"
-//					+ oldclock.mRepeat + "' and music='" + oldclock.mMusic + "' and vibrate='" + 
-//					oldclock.mVibrate + "' and sleeptime='" + oldclock.mSleepTime + "'";
 			String s = "update " + DATABASE_TABLE_GETUP + " set  status='" + newclock.mStatus +"',time='" + newclock.mTime + "',label='" 
 					+ newclock.mLabel + "',repeat='" + newclock.mRepeat + "',music='" + newclock.mMusic + "',vibrate='" 
 					+ newclock.mVibrate + "',sleeptime='" + newclock.mSleepTime + "',path='" + newclock.mPath + 
@@ -216,11 +210,6 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 		String[] selectArgs = {oldclock.mCreateTime};
 		Cursor cursor = readDB.query(DATABASE_TABLE_BIRTH, null, (DATABASE_TABLE_BIRTH_CREATE_TIME +"=?"), selectArgs, null, null, null);
 		if(cursor != null){
-//			String s = "update " + DATABASE_TABLE_BIRTH + " set status='" + newclock.mStatus +"' and day='" + newclock.mDay + "' and time='" 
-//					+ newclock.mTime + "' and label='" + newclock.mLabel + "' and music='" + newclock.mMusic + "' and vibrate='" 
-//					+ newclock.mVibrate + "' where status='" + oldclock.mStatus +"' and day='" + oldclock.mDay + "' and time='" + oldclock.mTime + "' and label='"
-//					+ oldclock.mLabel + "' and music='" + oldclock.mMusic + "' and vibrate='" + 
-//					oldclock.mVibrate +  "'";
 			String s = "update " + DATABASE_TABLE_BIRTH + " set status='" + newclock.mStatus +"',day='" + newclock.mDay + "',time='" 
 					+ newclock.mTime + "',label='" + newclock.mLabel + "',music='" + newclock.mMusic + "',vibrate='" 
 					+ newclock.mVibrate + "',path='" + newclock.mPath +

@@ -1,11 +1,8 @@
 package com.gcl.myclock.tools;
 
 public class GetUpClock extends Clock{
-//	public String mStatus;
-//	public String mTime;
-//	public String mLabel;
+
 	public String mRepeat;
-//	public String mMusic;
 	public String mVibrate;
 	public String mSleepTime;
 	
@@ -25,7 +22,7 @@ public class GetUpClock extends Clock{
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+
 		return "addingtime: " + mCreateTime + "status: " + mStatus + " time: " + mTime + " label: " + mLabel + " repeat: " + mRepeat + " music : " + 
 				mMusic + " vibrate: " + mVibrate + " sleeptime: " + mSleepTime + " type: " + mType + " path:" + mPath;
 	}

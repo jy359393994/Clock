@@ -53,7 +53,6 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.birthday_clock);
 		
@@ -96,19 +95,8 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 		return results;
 	}
 	
-	private int[] getDataPickDatas(String day){
-		int results[] = {0,0,0};
-			String values[] = day.split("/");
-//			Log.i(LOG, "----------------values:------------------------" + mClock.mDay);
-			results[0] = Integer.parseInt(values[0]);
-			results[1] = Integer.parseInt(values[1]) - 1;
-			results[2] = Integer.parseInt(values[2]);
-		return results;
-	}
-	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.layout_bir_clock_back:
 			finish();
@@ -138,7 +126,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 			AlarmTools tools = new AlarmTools(this);
 			tools.cancel(clock.mCreateTime);
 			Calendar c = ClockUtils.getCalendarForHourAndMinus(clock.mTime);
-			int[] days = getDataPickDatas(clock.mDay);
+			int[] days = ClockUtils.getDataPickDatas(clock.mDay);
 			c.set(days[0], days[1], days[2]);
 			Log.i(LOG, c.toString());
 			tools.setAlarm(clock.mCreateTime, false, 0, c.getTimeInMillis());
@@ -161,7 +149,6 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 	
 	private String getBirthDay(){
 		StringBuffer birthDay = new StringBuffer();
-//		String birthDay = "";
 		int year = mPicker.getYear();
 		int month = mPicker.getMonth() + 1;
 		int day = mPicker.getDayOfMonth();
@@ -184,7 +171,6 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		if(resultCode == 300){
 			mMusicNameTxt.setText(data.getCharSequenceExtra("name").toString());
 			mMusicPath =  data.getCharSequenceExtra("path").toString();
@@ -195,7 +181,6 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 	private void popTimePickerDialog(){  
         TimePickerDialog.OnTimeSetListener otsl=new TimePickerDialog.OnTimeSetListener(){  
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {  
-//                tv.setText("您设置了时间："+hourOfDay+"时"+minute+"分");  
                 mDialog.dismiss();
                 String h = String.format("%02d", hourOfDay);
                 String m = String.format("%02d", minute);

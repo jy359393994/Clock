@@ -66,19 +66,19 @@ public class ClockAdapter extends BaseAdapter implements OnClickListener{
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+
 		return mClocks.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
+
 		return mClocks.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
+
 		return position;
 	}
 
@@ -142,14 +142,12 @@ public class ClockAdapter extends BaseAdapter implements OnClickListener{
 		TextView mText;
 		ImageView mImg;
 		ToggleButton mToggleBtn;
-//		Button mDelBtn;
 		ImageView mDelImg;
 		
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		Integer pos = (Integer)v.getTag();
 		switch(v.getId()){		
 		case R.id.main_clock_list_togglebtn:

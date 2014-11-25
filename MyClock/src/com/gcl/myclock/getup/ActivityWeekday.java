@@ -42,7 +42,7 @@ public class ActivityWeekday extends Activity implements OnClickListener{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.weekday_set);
 
@@ -107,7 +107,7 @@ public class ActivityWeekday extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+
 		switch(v.getId()){
 		case R.id.layout_weekday_back:
 			Intent data = new Intent();

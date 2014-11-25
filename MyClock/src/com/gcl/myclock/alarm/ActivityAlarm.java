@@ -16,12 +16,16 @@ import com.gcl.myclock.tools.GetUpClock;
 import com.gcl.myclock.tools.VibratorUtil;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,25 +36,24 @@ public class ActivityAlarm extends Activity {
 	private static String LOG = "ActivityAlarm";
 	private TextView mTextName;
 	private ImageView mImage;
-	private Button mSleepBtn;
-	private Button mOkBtn;
 	private Clock mClock;
 	private MediaPlayer myMediaPlayer = null;
+	private WakeLock mWakelock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		final Window win = getWindow();
+		 win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+		 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		 win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+		 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+		 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_alarm);
 		mTextName = (TextView) findViewById(R.id.clock_name);
 		mImage = (ImageView) findViewById(R.id.clock_img);
-		mSleepBtn = (Button) findViewById(R.id.clock_btn_sleep);
-		mOkBtn = (Button) findViewById(R.id.clock_btn_ok);
 		init();
-
-//		VibratorUtil.VibratorUtil(this, new long[] { 0, 500, 1000 }, true);
-//		vibrate();
 		playMusic();
 	}
 
@@ -99,7 +102,6 @@ public class ActivityAlarm extends Activity {
 			Uri uri = Uri.parse(mClock.mPath);
 			myMediaPlayer = MediaPlayer.create(this, uri);
 			myMediaPlayer.start();
-			Log.i(LOG, "-----------------------------4-------");
 		}
 		else{
 			Log.i(LOG, "----------------mClock is null ");
@@ -138,6 +140,22 @@ public class ActivityAlarm extends Activity {
 					tools.setAlarm(clock.mCreateTime, false, 0, calendar.getTimeInMillis());
 				}
 			}
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+		mWakelock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.SCREEN_DIM_WAKE_LOCK, "SimpleTimer");
+		        mWakelock.acquire();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if(mWakelock != null){
+			mWakelock.release();
 		}
 	}
 }

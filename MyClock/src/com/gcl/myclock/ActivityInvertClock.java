@@ -33,10 +33,7 @@ import android.widget.Toast;
 
 public class ActivityInvertClock extends Activity implements OnClickListener{
 	private static final String LOG = "ActivityInvertClock";
-	// Time changed flag
 	private boolean timeChanged = false;
-	
-	// Time scrolled flag
 	private boolean timeScrolled = false;
 	
 	private Button mBtnYes;
@@ -101,8 +98,6 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
 				if (!timeScrolled) {
 					timeChanged = true;
-//					picker.setCurrentHour(hours.getCurrentItem());
-//					picker.setCurrentMinute(mins.getCurrentItem());
 					timeChanged = false;
 				}
 			}
@@ -125,23 +120,13 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 			public void onScrollingFinished(WheelView wheel) {
 				timeScrolled = false;
 				timeChanged = true;
-//				picker.setCurrentHour(hours.getCurrentItem());
-//				picker.setCurrentMinute(mins.getCurrentItem());
 				timeChanged = false;
 			}
 		};
 		
 		mHour.addScrollingListener(scrollListener);
 		mMin.addScrollingListener(scrollListener);
-		
-//		picker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//			public void onTimeChanged(TimePicker  view, int hourOfDay, int minute) {
-//				if (!timeChanged) {
-//					hours.setCurrentItem(hourOfDay, true);
-//					mins.setCurrentItem(minute, true);
-//				}
-//			}
-//		});
+
 		mBtnYes = (Button)findViewById(R.id.invert_btn_yes);
 		mBtnNo = (Button)findViewById(R.id.invert_btn_no);
 		mBtnYes.setOnClickListener(this);
@@ -163,7 +148,7 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 	private void addChangingListener(final WheelView wheel, final String label) {
 		wheel.addChangingListener(new OnWheelChangedListener() {
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
-				//wheel.setLabel(newValue != 1 ? label + "s" : label);
+				
 			}
 		});
 	}
@@ -196,7 +181,6 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.invert_btn_yes:
 			InvertClock c = new InvertClock(ClockUtils.getCreateTime(), "true", createTimeStr(), mTextClockName.getText().toString(), mTextMusicName.getText().toString(),mMusicPath);
@@ -274,7 +258,6 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		if(resultCode == 300){
 			mTextMusicName.setText(data.getCharSequenceExtra("name").toString());
 			mMusicPath =  data.getCharSequenceExtra("path").toString();

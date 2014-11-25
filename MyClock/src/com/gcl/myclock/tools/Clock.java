@@ -25,7 +25,7 @@ public class Clock implements Comparable<Object>{
 
 	@Override
 	public int compareTo(Object another) {
-		// TODO Auto-generated method stub
+
 		if(this == another)
 			return 0;
 		else if(another != null &&another instanceof Clock){

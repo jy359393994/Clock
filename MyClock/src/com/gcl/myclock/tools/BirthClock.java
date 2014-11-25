@@ -1,12 +1,10 @@
 package com.gcl.myclock.tools;
 
 public class BirthClock extends Clock{
-//	public String mStatus;
-//	public String mTime;
+
 	public String mDay;
-//	public String mMusic;
 	public String mVibrate;
-//	public String mLabel;
+
 	
 	public BirthClock(String createtime,String status,String time,String day,String label,String music,String vibrate,String path){
 		super(CType.CBirth);
@@ -23,7 +21,6 @@ public class BirthClock extends Clock{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "addingtime: " + mCreateTime + "status: " + mStatus + " day: " + mDay + " time: " + mTime + " label: " + mLabel + " music : " + mMusic +
 				" vibrate: " + mVibrate + " type: " + mType + " path:" + mPath;
 	}
