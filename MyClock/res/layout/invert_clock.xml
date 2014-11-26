@@ -40,7 +40,7 @@
             android:layout_toRightOf="@id/layout_invert_clock_back"
             android:text="倒计时"
             android:textColor="@android:color/white"
-            android:textSize="30px" />
+            android:textSize="20dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -129,20 +129,23 @@
                         android:id="@+id/invert_customlable_img_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="泡面"
+                        android:gravity="center"
+                        android:text="  泡面"
                         />
                     <com.gcl.myclock.CustomLabelImg 
                         android:id="@+id/invert_customlable_img_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="跑步"
+                        android:text="  跑步"
+                        android:gravity="center"
                         android:layout_marginLeft="3dp"
                         />
                     <com.gcl.myclock.CustomLabelImg 
                         android:id="@+id/invert_customlable_img_three"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="面膜"
+                        android:text="  面膜"
+                        android:gravity="center"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         />

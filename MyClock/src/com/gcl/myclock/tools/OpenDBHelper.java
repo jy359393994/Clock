@@ -98,7 +98,7 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 		writeDB = getWritableDatabase();
 		writeDB.execSQL("insert into " + DATABASE_TABLE_GETUP + " (addingtime,status,time,label,repeat,music,vibrate,sleeptime,path) values(?,?,?,?,?,?,?,?,?)",
 				new Object[]{clock.mCreateTime,clock.mStatus,clock.mTime,clock.mLabel,clock.mRepeat,clock.mMusic,clock.mVibrate,clock.mSleepTime,clock.mPath});
-		Log.i(LOG, "--------- addNewGetUpClock ---------------");
+		Log.i(LOG, "--------- addNewGetUpClock --------------- mVibrate: " + clock.mVibrate);
 					
 	}
 	//更改某个闹钟的信息，更改后的组成一个新的闹钟，替换数据库中之前的闹钟(暂时不考虑重复的闹钟，及所有信息都一样)
@@ -194,7 +194,7 @@ public class OpenDBHelper extends SQLiteOpenHelper{
 		writeDB = getWritableDatabase();
 		writeDB.execSQL("insert into " + DATABASE_TABLE_BIRTH + " (addingtime,status,day,time,label,music,vibrate,path) values(?,?,?,?,?,?,?,?)",
 				new Object[]{clock.mCreateTime,clock.mStatus,clock.mDay,clock.mTime,clock.mLabel,clock.mMusic,clock.mVibrate,clock.mPath});
-		Log.i(LOG, "--------- addNewBirthClock ---------------");
+		Log.i(LOG, "--------- addNewBirthClock --------------- mVibrate: " + clock.mVibrate);
 	}
 	
 	public void updateBirthClock(BirthClock oldclock,BirthClock newclock){

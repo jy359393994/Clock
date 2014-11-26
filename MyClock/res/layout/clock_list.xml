@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/shape_list_item"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="10dp" >
@@ -10,27 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <!--
-             <Button
-            android:id="@+id/main_clock_list_del_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/selector_invert_btn_yes"
-            android:text="删除"
-            android:visibility="gone" />
-        -->
-
-        <ImageView
-            android:id="@+id/main_clock_list_del_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:visibility="gone"
-            android:src="@drawable/del_bg" />
 
         <ImageView
             android:id="@+id/main_clock_list_img"
@@ -43,7 +23,7 @@
             android:id="@+id/main_clock_list_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
             android:textSize="18dp" />
     </LinearLayout>
@@ -57,5 +37,14 @@
         android:text=""
         android:textOff=""
         android:textOn="" />
+
+    <ImageView
+        android:id="@+id/main_clock_list_del_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:scaleType="fitCenter"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/del_bg"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -137,7 +137,7 @@ public class ClockUtils {
 		else if(cury == times[0] && curmon == times[1] && curd == times[2]){
 			int mhs[] = getHourAndMin(strtime);
 			Log.i(LOG, "mhs[0]: mhs[1]: " + mhs[0] + ":" + mhs[1]);
-			if(curh < mhs[0] || curh == times[0] && curm < mhs[1]){
+			if(curh < mhs[0] || curh == mhs[0] && curm < mhs[1]){
 				isPassed = false;
 			}
 			else{

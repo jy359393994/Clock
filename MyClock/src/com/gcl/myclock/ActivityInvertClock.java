@@ -50,6 +50,7 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 	private CustomLabelImg mButtonTwo;
 	private CustomLabelImg mButtonThree;
 	private static InvertClock mClock;
+	private LinearLayout mBackLayout;
 	
 	public static void enterInvertClock(InvertClock clock,Context context){
 		if(clock == null)			
@@ -71,6 +72,8 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 		mTextMusicName = (TextView)findViewById(R.id.invert_item_music_value);
 		mClockNameLayout = (LinearLayout)findViewById(R.id.invert_item_clockname_layout);
 		mMusicNameLayout = (LinearLayout)findViewById(R.id.invert_item_music_layout);
+		mBackLayout = (LinearLayout)findViewById(R.id.layout_invert_clock_back);
+		mBackLayout.setOnClickListener(this);
 		mClockNameLayout.setOnClickListener(this);
 		mMusicNameLayout.setOnClickListener(this);
 		
@@ -221,6 +224,9 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 		case R.id.invert_customlable_img_three:
 			mTextClockName.setText(mButtonThree.getText().toString());
 			
+			break;
+		case R.id.layout_invert_clock_back:
+			finish();
 			break;
 		}
 		

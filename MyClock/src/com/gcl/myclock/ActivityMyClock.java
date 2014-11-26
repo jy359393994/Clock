@@ -124,9 +124,15 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "------------onResume------------");
-		mClocks = ((ClockApp)getApplication()).getData().getAllClocks();
+		mClocks = ((ClockApp)getApplication()).getData().getAllClocks();		
 		mAdapter.addAllClocks(mClocks);
         mListView.setAdapter(mAdapter);
+        if(mClocks.size() == 0){
+        	findViewById(R.id.prompt_to_add_clock).setVisibility(View.VISIBLE);
+        }
+        else{
+        	findViewById(R.id.prompt_to_add_clock).setVisibility(View.GONE);
+        }
 		
 	}
 	

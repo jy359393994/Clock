@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class ActivityBirthdayClock extends Activity implements OnClickListener{
@@ -63,6 +64,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 		mRingTimeTxt = (TextView)findViewById(R.id.birth_item_time_value);
 		mMusicNameTxt = (TextView)findViewById(R.id.birth_item_sound_value);
 		mToggleBtn = (ToggleButton)findViewById(R.id.bir_togglebtn);
+		mToggleBtn.setOnClickListener(this);
 		mRingLayout = (LinearLayout)findViewById(R.id.birth_item_sound_layout);
 		mRingTimeLayout = (LinearLayout)findViewById(R.id.birth_item_time_layout);
 		mRingTimeLayout.setOnClickListener(this);
@@ -113,7 +115,8 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 		case R.id.layout_bir_clock_yes_btn:
 			BirthClock clock = new BirthClock(ClockUtils.getCreateTime(), "true", mRingTimeTxt.getText().toString(), 
 					getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), mToggleBtnStatus,mMusicPath);
-			
+//			Log.i(LOG, c.toString());
+			Log.i(LOG, "mToggleBtnStatus　:---------------------" + "  " + mToggleBtnStatus);
 			if(mClock != null){
 				clock.mCreateTime = mClock.mCreateTime;
 				((ClockApp)getApplication()).getData().updateBirthClock(mClock, clock);
@@ -127,9 +130,19 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 			tools.cancel(clock.mCreateTime);
 			Calendar c = ClockUtils.getCalendarForHourAndMinus(clock.mTime);
 			int[] days = ClockUtils.getDataPickDatas(clock.mDay);
-			c.set(days[0], days[1], days[2]);
-			Log.i(LOG, c.toString());
-			tools.setAlarm(clock.mCreateTime, false, 0, c.getTimeInMillis());
+			if(!ClockUtils.isBirthHasPassed(days, clock.mTime)){
+				c.set(days[0], days[1], days[2]);
+				Log.i(LOG, c.toString());
+				tools.setAlarm(clock.mCreateTime, false, 0, c.getTimeInMillis());
+			}
+			else{
+				Toast.makeText(this, "生日闹钟已过期！！！可点击编辑，编辑闹钟时间", Toast.LENGTH_SHORT).show();
+				BirthClock clo = new BirthClock(ClockUtils.getCreateTime(), "false", mRingTimeTxt.getText().toString(), 
+						getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), mToggleBtnStatus,mMusicPath);
+				clo.mCreateTime = clock.mCreateTime;
+				((ClockApp)getApplication()).getData().updateBirthClock(clock, clo);
+				
+			}
 			
 			finish();					
 			break;

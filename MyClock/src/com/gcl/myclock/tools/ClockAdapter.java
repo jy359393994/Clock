@@ -112,6 +112,13 @@ public class ClockAdapter extends BaseAdapter implements OnClickListener{
 		else{
 			holder.mImg.setBackgroundResource(R.drawable.main_invert_clock_img);
 			holder.mText.setText(((InvertClock)mClocks.get(position)).mTime);
+			InvertClock clock = (InvertClock)mClocks.get(position);
+//			if(clock.mStatus.equals("false")){
+//				holder.mToggleBtn.setVisibility(View.GONE);
+//			}
+//			else{
+//				
+//			}
 		}
 		if(mClocks.get(position).mStatus.equals("true")){
 			Log.i("getview", "------------------mStatus: " + mClocks.get(position).mStatus);

@@ -7,12 +7,12 @@
     android:orientation="vertical" >
     
 	<TextView 
-	    android:id="@+id/tip_one_text"
+	    android:id="@+id/tip"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="tip one"
+	    android:text="简单"
 	    android:textColor="@android:color/white"
-	    android:textSize="25sp"
+	    android:textSize="27sp"
 	    />
     
 </LinearLayout>

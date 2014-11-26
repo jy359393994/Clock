@@ -38,7 +38,7 @@
             android:layout_toRightOf="@id/layout_getup_clock_back"
             android:text="添加闹钟"
             android:textColor="@android:color/white"
-            android:textSize="30px" />
+            android:textSize="20dp" />
 
         <LinearLayout
             android:id="@+id/layout_getup_clock_yes_btn"

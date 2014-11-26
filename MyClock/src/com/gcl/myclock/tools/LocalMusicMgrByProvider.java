@@ -120,10 +120,10 @@ public class LocalMusicMgrByProvider {
 				String filePath = cursor.getString(2);
 				// filter the size>100kb files.
 				File file = new File(filePath);
-				if (file.length() < 100*1000)
+/*				if (file.length() < 100*1000)
 				{
 					continue;
-				}
+				}*/
 				String baseDir = getFilePathBaseDir(filePath);
 				if (baseDir != null) {
 					if (mContainerAllMusics.containsKey(baseDir) == false) {

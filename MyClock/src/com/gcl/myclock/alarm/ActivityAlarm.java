@@ -13,6 +13,7 @@ import com.gcl.myclock.tools.Clock;
 import com.gcl.myclock.tools.Clock.CType;
 import com.gcl.myclock.tools.ClockUtils;
 import com.gcl.myclock.tools.GetUpClock;
+import com.gcl.myclock.tools.InvertClock;
 import com.gcl.myclock.tools.VibratorUtil;
 
 import android.app.Activity;
@@ -30,8 +31,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 
-public class ActivityAlarm extends Activity {
+public class ActivityAlarm extends Activity implements OnCompletionListener{
 
 	private static String LOG = "ActivityAlarm";
 	private TextView mTextName;
@@ -44,11 +46,11 @@ public class ActivityAlarm extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Window win = getWindow();
-		 win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-		 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-		 win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-		 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-		 
+		win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+				| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_alarm);
 		mTextName = (TextView) findViewById(R.id.clock_name);
@@ -72,13 +74,19 @@ public class ActivityAlarm extends Activity {
 			if (mClock.mType.equals(CType.CGetUp)) {
 				mTextName.setText("ƒ÷÷”");
 				mImage.setBackgroundResource(R.drawable.main_getup_clock_img);
-				if(((GetUpClock)mClock).mVibrate.equals("true")){
+				Log.i(LOG, "GetUpClock    mVibrate : "
+						+ ((GetUpClock) mClock).mVibrate
+						+ "------------------------------------");
+				if (((GetUpClock) mClock).mVibrate.equals("true")) {
 					vibrate();
 				}
 			} else if (mClock.mType.equals(CType.CBirth)) {
 				mTextName.setText("…˙»’Ã·–—");
 				mImage.setBackgroundResource(R.drawable.main_birth_clock_img);
-				if(((BirthClock)mClock).mVibrate.equals("true")){
+				Log.i(LOG, "GetUpClock    mVibrate : "
+						+ ((BirthClock) mClock).mVibrate
+						+ "------------------------------------");
+				if (((BirthClock) mClock).mVibrate.equals("true")) {
 					vibrate();
 				}
 			} else {
@@ -89,73 +97,126 @@ public class ActivityAlarm extends Activity {
 		}
 	}
 
-	private void vibrate(){
-		VibratorUtil.VibratorUtil(this, new long[] { 0, 500, 1000 }, true);			
+	private void vibrate() {
+		VibratorUtil.VibratorUtil(this, new long[] { 0, 500, 1000 }, true);
 
 	}
+
 	private void playMusic() {
 		if (mClock != null) {
 			Log.i(LOG, "----------------mClock.path: " + mClock.mPath);
-			if(mClock.mPath == null || mClock.mPath.equals("")){
-				return;
+			if (mClock.mPath == null || mClock.mPath.equals("")) {
+				myMediaPlayer = MediaPlayer.create(this, R.raw.default_music);
+				myMediaPlayer.setOnCompletionListener(this);
+				myMediaPlayer.start();
+			} else {
+				Uri uri = Uri.parse(mClock.mPath);
+				if (myMediaPlayer == null) {
+					myMediaPlayer = MediaPlayer.create(this, uri);
+					myMediaPlayer.setOnCompletionListener(this);
+					myMediaPlayer.start();
+				}
 			}
-			Uri uri = Uri.parse(mClock.mPath);
-			myMediaPlayer = MediaPlayer.create(this, uri);
-			myMediaPlayer.start();
-		}
-		else{
+		} else {
 			Log.i(LOG, "----------------mClock is null ");
 		}
 	}
 
 	public void onOkClick(View v) {
-		doSetRepeatRing();
-		finish();
 		VibratorUtil.cacel();
-		if(myMediaPlayer != null){
+		if (myMediaPlayer != null) {
 			myMediaPlayer.release();
-		}		
+			myMediaPlayer = null;
+		}
+		updateClockStatus();
+		finish();
 	}
 
 	public void onSleepClick(View v) {
-		finish();
-		if(myMediaPlayer != null){
+		VibratorUtil.cacel();
+		if (myMediaPlayer != null) {
 			myMediaPlayer.release();
+			myMediaPlayer = null;
 		}
+		updateClockStatus();
+		finish();
 	}
-	
-	private void doSetRepeatRing(){
-		if(mClock != null){
-			if (mClock.mType.equals(CType.CGetUp)) {
-				GetUpClock clock = (GetUpClock)mClock;
-				if(!clock.mRepeat.equals("0")){
-					Calendar calendar = Calendar.getInstance();
-					int next = ClockUtils.getNextRepeatDay(ClockUtils.getRepeatInts(clock.mRepeat));
-					calendar.add(Calendar.DATE, next);
-					AlarmTools tools = new AlarmTools(this);
-					tools.cancel(clock.mCreateTime);
-					int times[] = ClockUtils.getHourAndMin(clock.mTime);
-					calendar.set(Calendar.HOUR_OF_DAY, times[0]);
-					calendar.set(Calendar.MINUTE, times[1]);
-					tools.setAlarm(clock.mCreateTime, false, 0, calendar.getTimeInMillis());
-				}
+
+	private void updateClockStatus() {
+		if (mClock != null) {
+			if (mClock.mType.equals(CType.CBirth)) {
+				BirthClock clock = (BirthClock) mClock;
+				BirthClock clo = new BirthClock(ClockUtils.getCreateTime(),
+						"false", clock.mTime, clock.mDay, clock.mLabel,
+						clock.mMusic, clock.mVibrate, clock.mPath);
+				clo.mCreateTime = clock.mCreateTime;
+				((ClockApp) getApplication()).getData().updateBirthClock(clock,
+						clo);
+			}
+			
+			if(mClock.mType.equals(CType.CGetUp)){
+				doRepeatRingOrChangeStatus();
+			}
+			if(mClock.mType.equals(CType.CInvert)){
+				InvertClock clock = (InvertClock)mClock;
+				InvertClock clo = new InvertClock(clock.mCreateTime, "false", clock.mTime, clock.mLabel, clock.mMusic, clock.mPath);
+				((ClockApp) getApplication()).getData().updateInvertClock(clock,
+						clo);
 			}
 		}
 	}
-	
+
+	private void doRepeatRingOrChangeStatus() {
+
+		GetUpClock clock = (GetUpClock) mClock;
+		if (!clock.mRepeat.equals("0")) {
+			Calendar calendar = Calendar.getInstance();
+			int next = ClockUtils.getNextRepeatDay(ClockUtils
+					.getRepeatInts(clock.mRepeat));
+			calendar.add(Calendar.DATE, next);
+			AlarmTools tools = new AlarmTools(this);
+			tools.cancel(clock.mCreateTime);
+			int times[] = ClockUtils.getHourAndMin(clock.mTime);
+			calendar.set(Calendar.HOUR_OF_DAY, times[0]);
+			calendar.set(Calendar.MINUTE, times[1]);
+			tools.setAlarm(clock.mCreateTime, false, 0,
+					calendar.getTimeInMillis());
+		} else {
+			GetUpClock clo = new GetUpClock(ClockUtils.getCreateTime(),
+					"false", clock.mTime, clock.mLabel,clock.mRepeat,
+					clock.mMusic, clock.mVibrate, clock.mSleepTime,clock.mPath);
+			clo.mCreateTime = clock.mCreateTime;
+			((ClockApp) getApplication()).getData().updateGetUpClock(clock,
+					clo);
+		}
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		mWakelock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.SCREEN_DIM_WAKE_LOCK, "SimpleTimer");
-		        mWakelock.acquire();
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		mWakelock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
+				| PowerManager.SCREEN_DIM_WAKE_LOCK, "SimpleTimer");
+		mWakelock.acquire();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(mWakelock != null){
+		if (mWakelock != null) {
 			mWakelock.release();
 		}
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		// TODO Auto-generated method stub
+		Log.i(LOG,"-------------------onCompletion------------  ");
+		if(myMediaPlayer != null){
+			myMediaPlayer.release();
+			myMediaPlayer = null;
+		}
+		playMusic();
 	}
 }

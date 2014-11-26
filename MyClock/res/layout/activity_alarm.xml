@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="270dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical" >
@@ -52,7 +52,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:onClick="onSleepClick"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp" >
 
                 <Button
                     android:id="@+id/clock_btn_sleep"
@@ -70,7 +72,9 @@
                 android:background="#e5e6e6"
                 android:gravity="center"
                 android:onClick="onOkClick"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp" >
 
                 <Button
                     android:id="@+id/clock_btn_ok"

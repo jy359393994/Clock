@@ -10,6 +10,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -21,6 +25,8 @@ public class ActivityHelpTips extends Activity implements OnPageChangeListener{
 	private List<View> mViews;
 	private ImageView mDots[];
 	private int mCurrentIndex = 0;
+	
+	private boolean mViewMeasureFlag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,22 @@ public class ActivityHelpTips extends Activity implements OnPageChangeListener{
 		mAdapter = new ViewPagerAdapter(mViews, this);
 		mPager.setAdapter(mAdapter);
 		mPager.setOnPageChangeListener(this);
+		
+		View v = mViews.get(0).findViewById(R.id.tip);
+    	ViewTreeObserver vto = v.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener()
+        {
+            public boolean onPreDraw()
+            {
+                if (mViewMeasureFlag == false)
+                {
+            		animate(mViews.get(0).findViewById(R.id.tip));
+                	mViewMeasureFlag = true;
+                }
+                return true;
+            }
+        });
+
 	}
 	
 	
@@ -76,7 +98,31 @@ public class ActivityHelpTips extends Activity implements OnPageChangeListener{
 	@Override
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "--------------------------------");
 		setCurrentDot(arg0);
+
+		animate(mViews.get(arg0).findViewById(R.id.tip));
+
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+	
+	private void animate(View target)
+	{
+        Animation a = new TranslateAnimation(0.0f,
+                0.0f, -target.getY() + 150, 0.0f);
+        a.setDuration(1000);
+        a.setStartOffset(300);
+        a.setRepeatCount(0);
+        a.setFillAfter(true);
+        a.setInterpolator(AnimationUtils.loadInterpolator(this,
+                android.R.anim.bounce_interpolator));
+        
+        target.startAnimation(a);
 	}
 	
 	private void setCurrentDot(int position){

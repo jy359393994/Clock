@@ -8,10 +8,10 @@
  
     
    	<TextView 
-    android:id="@+id/tip_two_text"
+    android:id="@+id/tip"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="tip two"
+    android:text="轻盈"
     android:textColor="@android:color/white"
     android:textSize="25sp"
     />

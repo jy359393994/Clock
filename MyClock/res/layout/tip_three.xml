@@ -11,12 +11,12 @@
      android:gravity="center"
       >
       <TextView 
-	   android:id="@+id/tip_three_text"
+	   android:id="@+id/tip"
 	   android:layout_width="wrap_content"
 	   android:layout_height="wrap_content"
-	   android:text="tip three"
+	   android:text="实用"
 	   android:textColor="@android:color/white"
-	   android:textSize="25sp"
+	   android:textSize="27sp"
 	   />
       
   </LinearLayout>  
@@ -28,7 +28,7 @@
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:layout_gravity="center|bottom"
-   	    android:paddingBottom="150dp"
+   	    android:paddingBottom="50dp"
    	    android:src="@drawable/selector_btn_bg_tip_enter"
    	    />
 

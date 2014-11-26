@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -99,6 +100,10 @@ public class ActivitySelectMusic extends Activity implements OnItemClickListener
 		data.putExtra("name", (mAllMusic.get(position)).substring(mAllMusic.get(position).lastIndexOf("/") + 1, mAllMusic.get(position).length()));
 		data.putExtra("path", mAllMusic.get(position));
 		setResult(300, data);
+		finish();
+	}
+	
+	public void onBack(View v){
 		finish();
 	}
 	
