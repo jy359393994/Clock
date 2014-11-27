@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="10"
         android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -66,7 +66,7 @@
         <activity
             android:name="com.gcl.myclock.getup.ActivitySleepTimeSetting"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+            android:theme="@style/DialogActivity" />
         <activity
             android:name="com.gcl.myclock.ActivitySelectMusic"
             android:screenOrientation="portrait"

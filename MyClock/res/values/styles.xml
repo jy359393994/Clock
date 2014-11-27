@@ -18,5 +18,6 @@
     </style>
     <style name="HoloActivity" parent="android:Theme.NoTitleBar">
     	</style>
+    <style name="DialogActivity" parent="android:Theme.Dialog"></style>
 
 </resources>

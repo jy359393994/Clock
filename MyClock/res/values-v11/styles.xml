@@ -10,5 +10,6 @@
     <style name="HoloActivity" parent="android:Theme.Holo.Light.NoActionBar">
         <!-- API 11 theme customizations can go here. -->
     </style>
+    <style name="DialogActivity" parent="android:style/Theme.Holo.Light.Dialog"></style>
 
 </resources>
