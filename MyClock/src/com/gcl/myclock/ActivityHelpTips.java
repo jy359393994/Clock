@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -113,6 +115,10 @@ public class ActivityHelpTips extends Activity implements OnPageChangeListener{
 	
 	private void animate(View target)
 	{
+		int sysVersion = Build.VERSION.SDK_INT;
+		if(sysVersion < 11){
+			return;
+		}
         Animation a = new TranslateAnimation(0.0f,
                 0.0f, -target.getY() + 150, 0.0f);
         a.setDuration(1000);
