@@ -235,6 +235,15 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
 				InvertClock newclock = new InvertClock(old.mCreateTime, status, old.mTime, 
 						old.mLabel, old.mMusic,old.mPath);
 				((ClockApp)getApplication()).getData().updateInvertClock(old, newclock);
+				if(status.equals("true")){
+					calendar = Calendar.getInstance(Locale.CHINA);
+					int sec = ClockUtils.getHourAndMinAndSec(newclock.mTime);
+					calendar.add(Calendar.SECOND, sec);
+					tools.setAlarm(newclock.mCreateTime, false, 0, calendar.getTimeInMillis());
+				}
+				else{
+					tools.cancel(old.mCreateTime);
+				}
 			}
 			mClocks.get(position).mStatus = status;
 		}
