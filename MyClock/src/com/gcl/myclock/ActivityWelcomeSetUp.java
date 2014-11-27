@@ -24,7 +24,7 @@ public class ActivityWelcomeSetUp extends Activity {
 	private static final int LOADFINISH = 0;
 	private static final int GO_HOME = 1;
 	private static final int GO_HELP_TIPS = 2;
-	private static final long INTERVAL_TIME = 500;
+	private static final long INTERVAL_TIME = 1000;
 	private DataCenter mData;
 	private ClockApp mApp;
 	
@@ -55,10 +55,10 @@ public class ActivityWelcomeSetUp extends Activity {
 //		mApp = (ClockApp)getApplication();
 //		mData = mApp.getData();
 		if(mIsFirstRun){
-			mHandler.sendEmptyMessage(GO_HELP_TIPS);
+			mHandler.sendEmptyMessageDelayed(GO_HELP_TIPS, INTERVAL_TIME);
 		}
 		else{
-			mHandler.sendEmptyMessage(GO_HOME);
+			mHandler.sendEmptyMessageDelayed(GO_HOME,INTERVAL_TIME);
 		}
 	}
 	

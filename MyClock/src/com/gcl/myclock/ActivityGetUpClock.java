@@ -42,6 +42,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 	private LinearLayout mSleepTimeLayout;
 	private static GetUpClock mClock;
 	private LinearLayout mMusicLayout;
+	private TextView mTitle;
 
 
 	public static void enterGetUpClock(GetUpClock clock, Context context) {
@@ -74,6 +75,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		mPicker = (TimePicker) findViewById(R.id.time_picker);
 		mMusicLayout = (LinearLayout) findViewById(R.id.getup_item_sound_layout);
 		mMusicLayout.setOnClickListener(this);
+		mTitle = (TextView)findViewById(R.id.getup_clock_title);
 		initDataFromMain();
 	}
 
@@ -84,8 +86,9 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			mMusicNameText.setText(mClock.mMusic);
 			mLabelEdit.setText(mClock.mLabel);
 			mSleepTimeTxt.setText(mClock.mSleepTime + "∑÷÷”");
-			mToggleBtn.setChecked(Boolean.getBoolean(mClock.mVibrate));
+			mToggleBtn.setChecked(Boolean.parseBoolean(mClock.mVibrate));
 			mMusicPath = mClock.mPath;
+			mTitle.setText("±‡º≠ƒ÷÷”");
 		}
 
 	}

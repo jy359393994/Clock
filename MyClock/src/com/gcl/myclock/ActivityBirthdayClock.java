@@ -40,6 +40,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 	private LinearLayout mRingLayout;
 	private TimePickerDialog mDialog;
 	private LinearLayout mRingTimeLayout;
+	private TextView mTitle;
 	
 	
 	public static void enterBirthClock(BirthClock clock,Context context){
@@ -67,6 +68,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 		mToggleBtn.setOnClickListener(this);
 		mRingLayout = (LinearLayout)findViewById(R.id.birth_item_sound_layout);
 		mRingTimeLayout = (LinearLayout)findViewById(R.id.birth_item_time_layout);
+		mTitle = (TextView)findViewById(R.id.bir_clock_title);
 		mRingTimeLayout.setOnClickListener(this);
 		mRingLayout.setOnClickListener(this);
 		mBackLayout.setOnClickListener(this);
@@ -82,7 +84,8 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 			mRingTimeTxt.setText(mClock.mTime);
 			mMusicNameTxt.setText(mClock.mMusic);
 			mMusicPath = mClock.mPath;
-			mToggleBtn.setChecked(Boolean.getBoolean(mClock.mStatus));
+			mToggleBtn.setChecked(Boolean.parseBoolean(mClock.mVibrate));
+			mTitle.setText("±‡º≠ƒ÷÷”");
 		}
 	}
 	private int[] getDataPickDatas(){
