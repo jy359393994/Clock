@@ -271,4 +271,13 @@ public class ActivityInvertClock extends Activity implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		if(mClock != null){
+			mClock = null;
+		}
+		
+		super.onDestroy();
+	}
 }

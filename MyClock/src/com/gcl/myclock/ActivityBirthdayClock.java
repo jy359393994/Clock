@@ -206,5 +206,15 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
         mDialog=new TimePickerDialog(this,otsl,hourOfDay,minute,true);  
         
     }  
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		if(mClock != null){
+			mClock = null;
+		}
+		
+		super.onDestroy();
+	}
 		
 }

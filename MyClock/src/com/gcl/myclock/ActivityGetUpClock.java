@@ -257,5 +257,14 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		if(mClock != null){
+			mClock = null;
+		}
+		
+		super.onDestroy();
+	}
 
 }
