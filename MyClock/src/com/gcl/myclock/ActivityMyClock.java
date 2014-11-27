@@ -124,6 +124,7 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "------------onResume------------");
+		mToggleButton.setChecked(false);
 		mClocks = ((ClockApp)getApplication()).getData().getAllClocks();		
 		mAdapter.addAllClocks(mClocks);
         mListView.setAdapter(mAdapter);
@@ -133,6 +134,7 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
         else{
         	findViewById(R.id.prompt_to_add_clock).setVisibility(View.GONE);
         }
+//        mAdapter.modifyStatus(false);
 		
 	}
 	
@@ -249,7 +251,11 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
 	public void clickPositionDelBtn(int position) {
 		Log.i(TAG, "--------------------------------position-----------" + position);
 		Clock clock = mClocks.get(position);
+		AlarmTools tools = new AlarmTools(this);
+		tools.cancel(clock.mCreateTime);
 		((ClockApp)getApplication()).getData().deleteClock(clock);
+//		AlarmTools tools = new AlarmTools(this);
+		
 	}
 
 }
