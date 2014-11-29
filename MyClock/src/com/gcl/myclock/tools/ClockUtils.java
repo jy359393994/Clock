@@ -1,5 +1,6 @@
 package com.gcl.myclock.tools;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -33,9 +34,11 @@ public class ClockUtils {
 	
 	public static int[] getRepeatInts(String strrepeat){
 		int [] values = {0,0,0,0,0,0,0};
+//		int[] revert = {0,0,0,0,0,0,0};
 		int results = Integer.parseInt(strrepeat);
 		for(int i=0;i<values.length;i++){
 			values[i]=(results&(1<<i)) == 0 ? 0 : 1;
+			Log.i(LOG, "------------values[i]:   " + values[i]);
 		}
 		
 		return values;
@@ -51,9 +54,24 @@ public class ClockUtils {
 	
 	//得到下一个闹钟日期与今天的的差值
 	public static int getNextRepeatDay(int[] repeats){
+//		int values[] = new int[repeats.length];
+		int j = 0;
+//		for(int i = repeats.length -1;i>= 0;i--){
+//			values[j++] =repeats[i];
+//		}
 		int next = 0;
 		Calendar c = Calendar.getInstance(Locale.CHINA);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		if(dayOfWeek == 7){
+			dayOfWeek = 5;
+		}
+		else if(dayOfWeek == 1){
+			dayOfWeek = 6;
+		}
+		else{
+			dayOfWeek -= 2;
+		}
+		
 		boolean isAllRedeayFindNext = false;
 		for(int i = dayOfWeek + 1;i < 7;i++){
 			if(repeats[i] == 1){
@@ -71,6 +89,8 @@ public class ClockUtils {
 				}
 			}
 		}
+		Log.i(LOG, "--------------------next: " + next  + "---------isAllRedeayFindNext: " + isAllRedeayFindNext + 
+				"dayOfWeek: " +dayOfWeek);
 		return next;
 	}
 	
@@ -94,7 +114,7 @@ public class ClockUtils {
 		Calendar calendar = new GregorianCalendar();
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minus);
-				
+		calendar.set(Calendar.SECOND, 0);		
 		return calendar;
     }
     

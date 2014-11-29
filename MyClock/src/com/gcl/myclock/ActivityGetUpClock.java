@@ -32,7 +32,6 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 	private String mStrTextRepeat = "永不";
 	private String mStrRepeat = "0";
 	private int[] mRepeats = { 0, 0, 0, 0, 0, 0, 0 };
-	private String mToggleBtnStatus = "false";
 	private TextView mRepeatResultTxt;
 	private TextView mMusicNameText;
 	private String mMusicPath;
@@ -82,7 +81,10 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 	private void initDataFromMain() {
 		if (mClock != null) {
 			setDataPickTime();
-			createRepeatStr(ClockUtils.getRepeatInts(mClock.mRepeat));
+			Log.i(LOG, "---------------mRepeat: " + mClock.mRepeat);
+			mRepeats = ClockUtils.getRepeatInts(mClock.mRepeat);
+			mStrTextRepeat = createRepeatStr(mRepeats);
+			mRepeatResultTxt.setText(mStrTextRepeat);
 			mMusicNameText.setText(mClock.mMusic);
 			mLabelEdit.setText(mClock.mLabel);
 			mSleepTimeTxt.setText(mClock.mSleepTime + "分钟");
@@ -118,9 +120,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			
 		case R.id.getup_clock_ToggleButton:
 			if (mToggleBtn.isChecked()) {
-				mToggleBtnStatus = "true";
 			} else {
-				mToggleBtnStatus = "false";
 			}
 			break;
 			
@@ -134,7 +134,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			GetUpClock clock = new GetUpClock(ClockUtils.getCreateTime(),
 					"true", createClockingTime(), mLabelEdit.getText()
 							.toString(), mStrRepeat, mMusicNameText.getText()
-							.toString(), mToggleBtnStatus, mSleepTimeTxt
+							.toString(), String.valueOf(mToggleBtn.isChecked()), mSleepTimeTxt
 							.getText().toString().replace("分钟", ""), mMusicPath);
 			if (mClock != null) {
 				clock.mCreateTime = mClock.mCreateTime;
@@ -158,6 +158,7 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			}
 			calendar.set(Calendar.HOUR_OF_DAY, times[0]);
 			calendar.set(Calendar.MINUTE, times[1]);
+			calendar.set(Calendar.SECOND, 0);	
 			tools.setAlarm(clock.mCreateTime, false, 0, calendar.getTimeInMillis());
 			finish();
 			break;
@@ -165,7 +166,8 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 		case R.id.getup_item_time_layout:
 			it = new Intent(ActivityGetUpClock.this,
 					ActivitySleepTimeSetting.class);
-			it.putExtra("value", 10);
+			it.putExtra("value", Integer.parseInt(mSleepTimeTxt
+					.getText().toString().replace("分钟", "")));
 			startActivityForResult(it, 100);
 			break;
 			
@@ -213,22 +215,21 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 			for (int i = 0; i < 7; i++) {
 				Log.i(LOG, "i:  " + i + "mRepeats: " + mRepeats[i]);
 			}
-			createRepeatStr(mRepeats);
+			mStrTextRepeat = createRepeatStr(mRepeats);
 			mRepeatResultTxt.setText(mStrTextRepeat);
 		}
 		if (200 == resultCode) {
 			mSleepTimeTxt.setText(data.getIntExtra("value", 10) + "分钟");
 		}
 		if (resultCode == 300) {
-			mMusicNameText
-					.setText(data.getCharSequenceExtra("name").toString());
-			mMusicPath = data.getCharSequenceExtra("path").toString();
+			mMusicNameText.setText(data.getStringExtra("name"));
+			mMusicPath = data.getStringExtra("path");
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void createRepeatStr(int[] results) {
+	private String createRepeatStr(int[] results) {
 		StringBuffer str = new StringBuffer();
 		for (int i = 0; i < results.length; i++) {
 			if (i == 0 && results[i] == 1) {
@@ -253,11 +254,13 @@ public class ActivityGetUpClock extends Activity implements OnClickListener {
 				str.append("日、");
 			}
 		}
-		mStrTextRepeat = str.toString();
-		if (mStrTextRepeat.endsWith("、")) {
-			mStrTextRepeat = mStrTextRepeat.substring(0,
-					mStrTextRepeat.length() - 1);
+		String r = str.toString();
+		if (r.endsWith("、")) {
+			r = r.substring(0,
+					r.length() - 1);
 		}
+		
+		return r;
 	}
 
 	@Override

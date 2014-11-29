@@ -44,6 +44,7 @@ public class AlarmTools {
 	}
 		
 	public void cancel(String ct){
+		Log.i(LOG, "-------------------------------------cancel:--------    ");
 		Intent intent=new Intent();
 		intent.setAction(ACTION);
 		PendingIntent pi = PendingIntent.getBroadcast(mContext, ct.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);

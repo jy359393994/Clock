@@ -34,7 +34,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 	private TextView mMusicNameTxt;
 	private String mMusicPath;
 	private ToggleButton mToggleBtn;
-	private String mToggleBtnStatus = "false";
+
 	private String mCreatClockTime;
 	private static BirthClock mClock;
 	private LinearLayout mRingLayout;
@@ -109,17 +109,15 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 			
 		case R.id.bir_togglebtn:
 			if(mToggleBtn.isChecked()){
-				mToggleBtnStatus = "true";
 			}
 			else{
-				mToggleBtnStatus = "false";
 			}
 			break;
 		case R.id.layout_bir_clock_yes_btn:
 			BirthClock clock = new BirthClock(ClockUtils.getCreateTime(), "true", mRingTimeTxt.getText().toString(), 
-					getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), mToggleBtnStatus,mMusicPath);
+					getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), String.valueOf(mToggleBtn.isChecked()),mMusicPath);
 //			Log.i(LOG, c.toString());
-			Log.i(LOG, "mToggleBtnStatus　:---------------------" + "  " + mToggleBtnStatus);
+			Log.i(LOG, "mToggleBtnStatus　:---------------------" + "  " + mToggleBtn.isChecked());
 			if(mClock != null){
 				clock.mCreateTime = mClock.mCreateTime;
 				((ClockApp)getApplication()).getData().updateBirthClock(mClock, clock);
@@ -141,7 +139,7 @@ public class ActivityBirthdayClock extends Activity implements OnClickListener{
 			else{
 				Toast.makeText(this, "生日闹钟已过期！！！可点击编辑，编辑闹钟时间", Toast.LENGTH_SHORT).show();
 				BirthClock clo = new BirthClock(ClockUtils.getCreateTime(), "false", mRingTimeTxt.getText().toString(), 
-						getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), mToggleBtnStatus,mMusicPath);
+						getBirthDay(),mLabelText.getText().toString(), mMusicNameTxt.getText().toString(), String.valueOf(mToggleBtn.isChecked()),mMusicPath);
 				clo.mCreateTime = clock.mCreateTime;
 				((ClockApp)getApplication()).getData().updateBirthClock(clock, clo);
 				

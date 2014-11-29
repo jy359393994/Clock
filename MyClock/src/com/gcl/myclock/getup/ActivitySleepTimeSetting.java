@@ -33,6 +33,15 @@ public class ActivitySleepTimeSetting extends Activity{
 		if(time == 10){
 			mGroup.check(R.id.ten_button);
 		}
+		if(time == 5){
+			mGroup.check(R.id.five_button);
+		}
+		if(time == 20){
+			mGroup.check(R.id.twenty_button);
+		}
+		if(time == 30){
+			mGroup.check(R.id.thirty_button);
+		}
 		mGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			
 			@Override

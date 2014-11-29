@@ -196,6 +196,7 @@ public class ActivityMyClock extends Activity implements OnClickListener,OnItemC
 				}
 				calendar.set(Calendar.HOUR_OF_DAY, times[0]);
 				calendar.set(Calendar.MINUTE, times[1]);
+				calendar.set(Calendar.SECOND, 0);	
 				Log.i(TAG, "---------------------------status: -------------------" + status);
 				if(status.equals("true")){
 					Log.i(TAG, "--------------…Ë÷√alarm -------------------------");

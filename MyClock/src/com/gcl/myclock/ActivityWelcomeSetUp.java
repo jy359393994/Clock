@@ -24,7 +24,7 @@ public class ActivityWelcomeSetUp extends Activity {
 	private static final int LOADFINISH = 0;
 	private static final int GO_HOME = 1;
 	private static final int GO_HELP_TIPS = 2;
-	private static final long INTERVAL_TIME = 1000;
+	private static final long INTERVAL_TIME = 500;
 	private DataCenter mData;
 	private ClockApp mApp;
 	
